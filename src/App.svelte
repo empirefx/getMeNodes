@@ -1,5 +1,4 @@
 <script>
-
   import { afterUpdate } from 'svelte';
   import { SelectionAccumulator } from './lib/Accumulator.js';
 
@@ -177,14 +176,13 @@
 <div class="container">
   <!-- Console Section -->
   <div class="console">
-    <h2>Output</h2>
+    <h1>Output</h1>
     <button on:click={copyToClipboard}>Copy State to Clipboard</button>
     <pre>{JSON.stringify(consoleNodes, null, "\t")}</pre>
   </div>
-
   <!-- Display Section -->
   <div class="display">
-    <h2>Nodes</h2>
+    <h1>Nodes</h1>
     <button on:click={handleFileExport}>Export</button>
     <!-- <button on:click={handleImport}>import</button> -->
     <div class="list">
@@ -213,29 +211,28 @@
   <!-- Sidepanel Section -->
   <div class="sidepanel">
   {#if selectedNode}
-    <h2>Edit Node</h2>
+    <h1>Edit Node</h1>
     <form>
       <input type="text" bind:value={editedNodeName} placeholder={selectedNode.name}/>
       <button type="button" on:click={(event) => handleClick(event, updateNode)}>Update Name</button>
     </form>
     <button on:click={deleteNode(selectedNode.id)}>Delete Node</button>
-
-    <h3>Connections</h3>
+    <h2>Connections</h2>
     {#each getConnections(selectedNode.id) as id}
     <div class="connection">
       Node {id}
     </div>
     {/each}
-
-    <h3>Properties</h3>
-
+    <h2>Properties</h2>
   {:else}
-
-    <h2>Add Node</h2>
+    <h1>Add Node</h1>
     <form>
       <input type="text" />
       <button type="button" on:click={(event) => handleClick(event, addNode)}>New Node</button>
     </form>
+
+    <h2>Global Properties</h2>
+
   {/if}
   </div>
 </div>
