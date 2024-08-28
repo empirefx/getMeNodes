@@ -50,14 +50,13 @@
   ];
 
   const onSubmit = ({ detail }) => {
-    if(!detail.name) return;                                            // Need to actually reset
-    const input = event.target.closest('form').querySelector('input');  // instead of doing this
 
     console.log(detail);
     const { valid, touched, ...res } = detail;
+    console.log(res);
 
     addNode(res);
-    input.value = '';
+    event.target.reset(); // reset form
   };
 </script>
 
