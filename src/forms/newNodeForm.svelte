@@ -50,9 +50,10 @@
   ];
 
   const onSubmit = ({ detail }) => {
-
-    console.log(detail);
     const { valid, touched, ...res } = detail;
+
+    if(!res.name) return;
+    
     console.log(res);
 
     addNode(res);
