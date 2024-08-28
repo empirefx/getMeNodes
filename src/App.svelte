@@ -1,12 +1,91 @@
 <script>
-  import { afterUpdate } from 'svelte';
+const example = {
+  city: {
+    name: "City Name",
+    type: "city",
+    resources: {
+      population: 1000,
+      gold: 500,
+      food: 300,
+      ore: 10000,
+      goods: 1000,
+      soldiers: 100,
+      weapons: 50,
+      researchPoints: 500
+    },
+    buildings: {
+      houses: 100,
+      barracks: 5,
+      palace: 1,
+      armory: 1
+    },
+    production: {
+      goldPerHour: 10,
+      foodPerHour: 5,
+      orePerHour: 50,
+      foodPerHour: 20,
+      goodsPerHour: 30,
+      soldiersPerHour: 10,
+      weaponsPerHour: 5,
+      researchPointsPerHour: 20
+    },
+    actions: {
+      upgradeBuilding: function(buildingType) {
+        console.log(`Upgrading ${buildingType}`);
+      },
+      recruitUnits: function(unitType, amount) {
+        console.log(`Recruiting ${amount} ${unitType}`);
+      },
+      buildWonder: function(wonderName) {
+        console.log(`Building ${wonderName}`);
+      },
+      declareWar: function(targetCityId) {
+        console.log(`Declaring war on city ${targetCityId}`);
+      },
+      upgradeMine: function() {
+        console.log("Upgrading mine");
+      },
+      assignWorker: function(workerType, amount) {
+        console.log(`Assigning ${amount} ${workerType} to the mine`);
+      },
+      expandField: function() {
+        console.log("Expanding farm field");
+      },
+      hireWorker: function(workerType, amount) {
+        console.log(`Hiring ${amount} ${workerType}`);
+      },
+      buildShip: function(shipType) {
+        console.log(`Building ${shipType}`);
+      },
+      trade: function(goodsType, amount) {
+        console.log(`Trading ${amount} ${goodsType}`);
+      },
+      trainSoldiers: function(amount) {
+        console.log(`Training ${amount} soldiers`);
+      },
+      stockpileWeapons: function(amount) {
+        console.log(`Stockpiling ${amount} weapons`);
+      },
+      startResearch: function(researchTopic) {
+        console.log(`Starting research on ${researchTopic}`);
+      },
+      upgradeLab: function() {
+        console.log("Upgrading research lab");
+      }
+    }
+  },
+};
+  import { setContext } from 'svelte';
+  import NewNodeForm from './forms/newNodeForm.svelte';
+  import UpdateNodeForm from './forms/updateNodeForm.svelte';
   import { SelectionAccumulator } from './lib/Accumulator.js';
 
   const accumulator = new SelectionAccumulator();
   let nodes = [];
-  let editedNodeName = '';
   let highlightedNodeId = null;
   let selectedNodeId = null;
+
+  setContext('node', { addNode, updateNode });
 
   function toggleNodeControls(id) {
     if (selectedNodeId === id) {
@@ -15,13 +94,13 @@
     } else {
       selectedNodeId = id;
       highlightedNodeId = id;
-      editedNodeName = displayNodes.find(n => n.id === id).name;
     }
   }
 
   function addNode(name) {
     if (name) {
-      const id = accumulator.addNode({ name: name });
+      // const id = accumulator.addNode({ name: name });
+      const id = accumulator.addNode(name);
       nodes = accumulator.getNodes();
     }
   }
@@ -100,17 +179,7 @@
 
   //DEBUG
   $: {
-    // console.log(nodes);
-  }
-
-  function handleClick(event, action) {
-    const input = event.target.closest('form').querySelector('input');
-
-    if(!input.value) return;
-
-    action(input.value);
-
-    if (action === addNode) input.value = '';
+    // console.log(selectedNode);
   }
 
   function handleMouseEnter(id) {
@@ -212,10 +281,9 @@
   <div class="sidepanel">
   {#if selectedNode}
     <h1>Edit Node</h1>
-    <form>
-      <input type="text" bind:value={editedNodeName} placeholder={selectedNode.name}/>
-      <button type="button" on:click={(event) => handleClick(event, updateNode)}>Update Name</button>
-    </form>
+    {#key selectedNodeId}
+    <UpdateNodeForm propValue={selectedNode.name}/>
+    {/key}
     <button on:click={deleteNode(selectedNode.id)}>Delete Node</button>
     <h2>Connections</h2>
     {#each getConnections(selectedNode.id) as id}
@@ -226,13 +294,8 @@
     <h2>Properties</h2>
   {:else}
     <h1>Add Node</h1>
-    <form>
-      <input type="text" />
-      <button type="button" on:click={(event) => handleClick(event, addNode)}>New Node</button>
-    </form>
-
+    <NewNodeForm />
     <h2>Global Properties</h2>
-
   {/if}
   </div>
 </div>
