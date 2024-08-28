@@ -10,7 +10,7 @@
     {
       type: 'input', // required
       name: 'name', // required
-      value: propValue,
+      value: propValue.name,
       attributes: {
         type: 'text',
         id: 'firstname', // required

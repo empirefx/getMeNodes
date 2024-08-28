@@ -282,7 +282,7 @@ const example = {
   {#if selectedNode}
     <h1>Edit Node</h1>
     {#key selectedNodeId}
-    <UpdateNodeForm propValue={selectedNode.name}/>
+    <UpdateNodeForm propValue={selectedNode}/>
     {/key}
     <button on:click={deleteNode(selectedNode.id)}>Delete Node</button>
     <h2>Connections</h2>
@@ -291,11 +291,9 @@ const example = {
       Node {id}
     </div>
     {/each}
-    <h2>Properties</h2>
   {:else}
     <h1>Add Node</h1>
     <NewNodeForm />
-    <h2>Global Properties</h2>
   {/if}
   </div>
 </div>
