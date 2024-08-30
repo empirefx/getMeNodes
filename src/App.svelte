@@ -1,80 +1,4 @@
 <script>
-const example = {
-  city: {
-    name: "City Name",
-    type: "city",
-    resources: {
-      population: 1000,
-      gold: 500,
-      food: 300,
-      ore: 10000,
-      goods: 1000,
-      soldiers: 100,
-      weapons: 50,
-      researchPoints: 500
-    },
-    buildings: {
-      houses: 100,
-      barracks: 5,
-      palace: 1,
-      armory: 1
-    },
-    production: {
-      goldPerHour: 10,
-      foodPerHour: 5,
-      orePerHour: 50,
-      foodPerHour: 20,
-      goodsPerHour: 30,
-      soldiersPerHour: 10,
-      weaponsPerHour: 5,
-      researchPointsPerHour: 20
-    },
-    actions: {
-      upgradeBuilding: function(buildingType) {
-        console.log(`Upgrading ${buildingType}`);
-      },
-      recruitUnits: function(unitType, amount) {
-        console.log(`Recruiting ${amount} ${unitType}`);
-      },
-      buildWonder: function(wonderName) {
-        console.log(`Building ${wonderName}`);
-      },
-      declareWar: function(targetCityId) {
-        console.log(`Declaring war on city ${targetCityId}`);
-      },
-      upgradeMine: function() {
-        console.log("Upgrading mine");
-      },
-      assignWorker: function(workerType, amount) {
-        console.log(`Assigning ${amount} ${workerType} to the mine`);
-      },
-      expandField: function() {
-        console.log("Expanding farm field");
-      },
-      hireWorker: function(workerType, amount) {
-        console.log(`Hiring ${amount} ${workerType}`);
-      },
-      buildShip: function(shipType) {
-        console.log(`Building ${shipType}`);
-      },
-      trade: function(goodsType, amount) {
-        console.log(`Trading ${amount} ${goodsType}`);
-      },
-      trainSoldiers: function(amount) {
-        console.log(`Training ${amount} soldiers`);
-      },
-      stockpileWeapons: function(amount) {
-        console.log(`Stockpiling ${amount} weapons`);
-      },
-      startResearch: function(researchTopic) {
-        console.log(`Starting research on ${researchTopic}`);
-      },
-      upgradeLab: function() {
-        console.log("Upgrading research lab");
-      }
-    }
-  },
-};
   import { setContext } from 'svelte';
   import NewNodeForm from './forms/newNodeForm.svelte';
   import UpdateNodeForm from './forms/updateNodeForm.svelte';
@@ -99,25 +23,29 @@ const example = {
 
   function addNode(name) {
     if (name) {
-      // const id = accumulator.addNode({ name: name });
       const id = accumulator.addNode(name);
-      nodes = accumulator.getNodes();
+      
+      getAllNodes();
     }
   }
 
-  function updateNode(name = selectedNode.name) {
-    if (name) {
-      accumulator.updateNode(selectedNode.id, { name: name });
-      nodes = accumulator.getNodes();
-    }
+  function updateNode( data) {
+    accumulator.updateNode(selectedNode.id, data);
+
+    getAllNodes();
   }
 
   function deleteNode(id) {
     accumulator.deleteNode(id);
-    nodes = accumulator.getNodes();
+    
+    getAllNodes();
     if (selectedNode.id === id) {
       selectedNode = null;
     }
+  }
+
+  function getAllNodes() {
+    nodes = accumulator.getNodes();
   }
 
   function toggleNodeConnection(targetNodeId) {
@@ -128,10 +56,8 @@ const example = {
       } else {
         accumulator.connectNodes(selectedNode.id, targetNodeId);
       }
-      // toggleNodeControls(selectedNodeId);
-      // handleMouseEnter(selectedNodeId);
       
-      updateNode();
+      getAllNodes();
     }
   }
 
@@ -159,7 +85,6 @@ const example = {
   $: displayNodes = nodes.map(([id, node]) => ({
     id,
     ...node,
-    properties: [],
     connections: getConnections(id),
   }));
 

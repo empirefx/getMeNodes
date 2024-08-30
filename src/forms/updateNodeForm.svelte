@@ -1,35 +1,34 @@
 <script>
   export let propValue
 
-  import { getContext } from 'svelte';
-  import { Formly } from 'svelte-formly';
-  
-  const { updateNode } = getContext('node'); // From parent
-  const form_name = 'update_node_name';
-  const fields = [
-    {
-      type: 'input', // required
-      name: 'name', // required
-      value: propValue.name,
-      attributes: {
-        type: 'text',
-        id: 'firstname', // required
-        classes: ['form-control'],
-        autocomplete: 'off'
-      },
-    }
-  ];
+  import { onMount, getContext } from 'svelte';
+  import schema from '../schema/form.js';
+  import data from '../schema/data.js';
 
-  const onUpdate = ({ detail }) => {
-    updateNode(detail.name);
-  };
+  let bf;
+  const { updateNode } = getContext('node'); // From parent
+
+  const handleClick = ({ detail }) => {
+    const data = bf.getData();
+
+    if(!data.name) return;
+
+    updateNode(data);
+  }
+
+  onMount(() => {
+    if (window.brutusin) {
+      // Initialize
+      const BrutusinForms = brutusin["json-forms"];
+      const container = document.getElementById('brutusinForms');
+
+      bf = BrutusinForms.create(schema);
+      bf.render(container, propValue);
+    }
+  });
 </script>
 
-<Formly 
-  {form_name}
-  {fields} 
-  btnReset={{"text":"","classes":['invisible']}}
-  btnSubmit={{"text":``,"classes":['invisible']}} 
-  on:update={onUpdate}
-  realtime={true}
-/>
+<div id="brutusinForms">
+  <button on:click={handleClick}>Update</button>
+  &nbsp;
+</div>
