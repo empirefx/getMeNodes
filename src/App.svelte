@@ -207,9 +207,9 @@
   {#if selectedNode}
     <h1>Edit Node</h1>
     {#key selectedNodeId}
+    <button on:click={deleteNode(selectedNode.id)}>Delete Node</button>
     <UpdateNodeForm propValue={selectedNode}/>
     {/key}
-    <button on:click={deleteNode(selectedNode.id)}>Delete Node</button>
     <h2>Connections</h2>
     {#each getConnections(selectedNode.id) as id}
     <div class="connection">
