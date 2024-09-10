@@ -1,12 +1,15 @@
 <script>
-  import { afterUpdate } from 'svelte';
+  import { setContext } from 'svelte';
+  import NewNodeForm from './forms/newNodeForm.svelte';
+  import UpdateNodeForm from './forms/updateNodeForm.svelte';
   import { SelectionAccumulator } from './lib/Accumulator.js';
 
   const accumulator = new SelectionAccumulator();
   let nodes = [];
-  let editedNodeName = '';
   let highlightedNodeId = null;
   let selectedNodeId = null;
+
+  setContext('node', { addNode, updateNode });
 
   function toggleNodeControls(id) {
     if (selectedNodeId === id) {
@@ -15,30 +18,34 @@
     } else {
       selectedNodeId = id;
       highlightedNodeId = id;
-      editedNodeName = displayNodes.find(n => n.id === id).name;
     }
   }
 
   function addNode(name) {
     if (name) {
-      const id = accumulator.addNode({ name: name });
-      nodes = accumulator.getNodes();
+      const id = accumulator.addNode(name);
+      
+      getAllNodes();
     }
   }
 
-  function updateNode(name = selectedNode.name) {
-    if (name) {
-      accumulator.updateNode(selectedNode.id, { name: name });
-      nodes = accumulator.getNodes();
-    }
+  function updateNode( data) {
+    accumulator.updateNode(selectedNode.id, data);
+
+    getAllNodes();
   }
 
   function deleteNode(id) {
     accumulator.deleteNode(id);
-    nodes = accumulator.getNodes();
+    
+    getAllNodes();
     if (selectedNode.id === id) {
       selectedNode = null;
     }
+  }
+
+  function getAllNodes() {
+    nodes = accumulator.getNodes();
   }
 
   function toggleNodeConnection(targetNodeId) {
@@ -49,10 +56,8 @@
       } else {
         accumulator.connectNodes(selectedNode.id, targetNodeId);
       }
-      // toggleNodeControls(selectedNodeId);
-      // handleMouseEnter(selectedNodeId);
       
-      updateNode();
+      getAllNodes();
     }
   }
 
@@ -80,7 +85,6 @@
   $: displayNodes = nodes.map(([id, node]) => ({
     id,
     ...node,
-    properties: [],
     connections: getConnections(id),
   }));
 
@@ -100,17 +104,7 @@
 
   //DEBUG
   $: {
-    // console.log(nodes);
-  }
-
-  function handleClick(event, action) {
-    const input = event.target.closest('form').querySelector('input');
-
-    if(!input.value) return;
-
-    action(input.value);
-
-    if (action === addNode) input.value = '';
+    // console.log(selectedNode);
   }
 
   function handleMouseEnter(id) {
@@ -212,27 +206,19 @@
   <div class="sidepanel">
   {#if selectedNode}
     <h1>Edit Node</h1>
-    <form>
-      <input type="text" bind:value={editedNodeName} placeholder={selectedNode.name}/>
-      <button type="button" on:click={(event) => handleClick(event, updateNode)}>Update Name</button>
-    </form>
+    {#key selectedNodeId}
     <button on:click={deleteNode(selectedNode.id)}>Delete Node</button>
+    <UpdateNodeForm propValue={selectedNode}/>
+    {/key}
     <h2>Connections</h2>
     {#each getConnections(selectedNode.id) as id}
     <div class="connection">
       Node {id}
     </div>
     {/each}
-    <h2>Properties</h2>
   {:else}
     <h1>Add Node</h1>
-    <form>
-      <input type="text" />
-      <button type="button" on:click={(event) => handleClick(event, addNode)}>New Node</button>
-    </form>
-
-    <h2>Global Properties</h2>
-
+    <NewNodeForm />
   {/if}
   </div>
 </div>
