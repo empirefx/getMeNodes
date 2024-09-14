@@ -190,3 +190,25 @@ user-select: none; /* Standard syntax */
 .selected {
   background-color: #4a9b43;
 }
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 8px;
+  text-align: left;
+/*      max-height: 100px;*/
+/*      overflow-y: scroll;*/
+}
+tr {
+  width: 100%;
+}
+table {
+  width: 100%;
+  margin: 10px 0;
+}
+.nested-table {
+/*      white-space: pre-wrap; /* Preserve whitespace for better readability */
+/*      margin-left: 20px;*/
+}

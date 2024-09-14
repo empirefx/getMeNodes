@@ -4,6 +4,9 @@
   import UpdateNodeForm from './forms/updateNodeForm.svelte';
   import { SelectionAccumulator } from './lib/Accumulator.js';
 
+  // components
+  import Tabular from './components/table.svelte';
+
   const accumulator = new SelectionAccumulator();
   let nodes = [];
   let highlightedNodeId = null;
@@ -104,7 +107,7 @@
 
   //DEBUG
   $: {
-    // console.log(selectedNode);
+    // console.log("app" + selectedNode);
   }
 
   function handleMouseEnter(id) {
@@ -172,7 +175,11 @@
   <div class="console">
     <h1>Output</h1>
     <button on:click={copyToClipboard}>Copy State to Clipboard</button>
-    <pre>{JSON.stringify(consoleNodes, null, "\t")}</pre>
+    {#if selectedNode}
+    <Tabular node={selectedNode}/>
+    {:else}
+    <h1>Select a node</h1>
+    {/if}
   </div>
   <!-- Display Section -->
   <div class="display">
