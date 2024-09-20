@@ -105,11 +105,6 @@
   // Compute the selected node details
   $: selectedNode = displayNodes.find(n => n.id === selectedNodeId);
 
-  //DEBUG
-  $: {
-    // console.log("app" + selectedNode);
-  }
-
   function handleMouseEnter(id) {
     if (selectedNodeId) return;
     highlightedNodeId = id;
