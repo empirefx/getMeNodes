@@ -3,65 +3,84 @@ export default
     "type": "none",
     "resources": [
         {
-            "type": "population"
+            "type": "population",
+            "qty": 0
         },
         {
-            "type": "gold"
+            "type": "gold",
+            "qty": 0
         },
         {
-            "type": "food"
+            "type": "food",
+            "qty": 0
         },
         {
-            "type": "ore"
+            "type": "ore",
+            "qty": 0
         },
         {
-            "type": "goods"
+            "type": "goods",
+            "qty": 0
         },
         {
-            "type": "soldiers"
+            "type": "soldiers",
+            "qty": 0
         },
         {
-            "type": "weapons"
+            "type": "weapons",
+            "qty": 0
         },
         {
-            "type": "researchPoints"
+            "type": "researchPoints",
+            "qty": 0
         }
     ],
     "buildings": [
         {
-            "type": "houses"
+            "type": "houses",
+            "qty": 0
         },
         {
-            "type": "barracks"
+            "type": "barracks",
+            "qty": 0
         },
         {
-            "type": "palace"
+            "type": "palace",
+            "qty": 0
         },
         {
-            "type": "armory"
+            "type": "armory",
+            "qty": 0
         }
     ],
     "production": [
         {
-            "type": "goldPerHour"
+            "type": "goldPerHour",
+            "qty": 0
         },
         {
-            "type": "foodPerHour"
+            "type": "foodPerHour",
+            "qty": 0
         },
         {
-            "type": "orePerHour"
+            "type": "orePerHour",
+            "qty": 0
         },
         {
-            "type": "goodsPerHour"
+            "type": "goodsPerHour",
+            "qty": 0
         },
         {
-            "type": "soldiersPerHour"
+            "type": "soldiersPerHour",
+            "qty": 0
         },
         {
-            "type": "weaponsPerHour"
+            "type": "weaponsPerHour",
+            "qty": 0
         },
         {
-            "type": "researchPointsPerHour"
+            "type": "researchPointsPerHour",
+            "qty": 0
         }
     ],
     "actions": [
