@@ -168,13 +168,13 @@
   <header>
     <div class="menu">
       <ul>
-        <li on:click={copyToClipboard}>
+        <li>
           <i class="bi bi-clipboard-check"></i>
-          Clipboard
+          <a href={"#"} on:click={copyToClipboard}>Clipboard</a>
         </li>
-        <li on:click={handleFileExport}>
+        <li>
           <i class="bi bi-download"></i>
-          Download
+          <a href={"#"} on:click={handleFileExport}>Download</a>
         </li>
       </ul>
     </div>
