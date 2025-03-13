@@ -118,6 +118,16 @@
   // Add event listeners to the window for drag and drop
   window.addEventListener('dragover', handleDragOver);
   window.addEventListener('drop', handleFileDrop);
+  window.addEventListener('dragenter', handleFileOverlay, false);
+
+  function handleFileOverlay(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (event.dataTransfer.types.includes('Files')) {
+      document.getElementById('overlayDrop').style.display = 'flex';
+    }
+  }
 
   function handleDragOver(event) {
     // Prevent file from being opened in browser
@@ -126,6 +136,8 @@
 
   function handleFileDrop(event) {
     event.preventDefault();
+
+    document.getElementById('overlayDrop').style.display = 'none';
 
     const file = event.dataTransfer.files[0];
     if (!file) return;
@@ -164,6 +176,14 @@
     URL.revokeObjectURL(url);
   }
 </script>
+<div class="overlay-drop" id="overlayDrop">
+  <div>
+    <p>Drop File here</p>
+  </div>
+  <div>
+    <p>Drop File here</p>
+  </div>
+</div>
 <div class="container">
   <header>
     <div class="menu">
