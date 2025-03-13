@@ -27,6 +27,8 @@
 </script>
 
 <div id="brutusinForms">
-  <button on:click={handleClick}>Create</button>
-  &nbsp;
+  <button on:click={handleClick}>
+    <i class="bi bi-plus-lg"></i>
+    Create
+  </button>
 </div>

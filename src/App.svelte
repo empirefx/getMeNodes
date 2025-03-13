@@ -164,22 +164,26 @@
     URL.revokeObjectURL(url);
   }
 </script>
-
 <div class="container">
-  <!-- Console Section -->
-  <div class="console">
-    <h1>Output</h1>
-    <button on:click={copyToClipboard}>Copy State to Clipboard</button>
-    {#if selectedNode}
-    <Tabular node={selectedNode}/>
-    {:else}
-    <h1>Select a node</h1>
-    {/if}
-  </div>
+  <header>
+    <div class="menu">
+      <ul>
+        <li on:click={copyToClipboard}>
+          <i class="bi bi-clipboard-check"></i>
+          Clipboard
+        </li>
+        <li on:click={handleFileExport}>
+          <i class="bi bi-download"></i>
+          Download
+        </li>
+      </ul>
+    </div>
+    <div class="info">Drag file for import</div>
+  </header>
+
   <!-- Display Section -->
   <div class="display">
     <h1>Nodes</h1>
-    <button on:click={handleFileExport}>Export</button>
     <!-- <button on:click={handleImport}>import</button> -->
     <div class="list">
     {#each displayNodes as { id, name }}
@@ -197,19 +201,32 @@
         <br>
         {#if selectedNode && selectedNode.id !== id}
         <button class="link-button {linkState(id)}" on:click={() => toggleNodeConnection(id)} >
-          {linkState(id)}
+          <i class={`bi ${linkState(id) === 'link' ? 'bi-node-plus' : 'bi-node-minus'}`}></i>
         </button>
         {/if}
       </div>
     {/each}
     </div>
   </div>
+
+  <!-- Console Section -->
+  <div class="console">
+    {#if selectedNode}
+    <Tabular node={selectedNode}/>
+    {:else}
+    <h2>Node information</h2>
+    {/if}
+  </div>
+
   <!-- Sidepanel Section -->
   <div class="sidepanel">
   {#if selectedNode}
     <h1>Edit Node</h1>
     {#key selectedNodeId}
-    <button on:click={deleteNode(selectedNode.id)}>Delete Node</button>
+    <button on:click={deleteNode(selectedNode.id)}>
+      <i class="bi bi-x-lg"></i>
+      Delete Node
+    </button>
     <UpdateNodeForm propValue={selectedNode}/>
     {/key}
     <h2>Connections</h2>

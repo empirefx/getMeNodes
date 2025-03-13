@@ -29,6 +29,7 @@
 </script>
 
 <div id="brutusinForms">
-  <button on:click={handleClick}>Update</button>
-  &nbsp;
+  <button on:click={handleClick}>
+    <i class="bi bi-arrow-up-left"></i>
+  Update</button>
 </div>
