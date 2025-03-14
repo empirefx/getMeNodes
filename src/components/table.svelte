@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import JTabular from '../lib/jtabular.js';
+  import JTabular from 'jtabular/src/lib/jtabular.js';
 
   export let node;
   
