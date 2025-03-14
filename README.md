@@ -2,11 +2,12 @@
 
 Needed to manage nodes properties and links between for my game map in a easy way.
 
-## Technologies Used
+## This repo uses
 
 - **Vite**
 - **Svelte**
 - **[brutusin-json-forms](https://github.com/brutusin/json-forms)**
+- **[jTabular](https://github.com/empirefx/jtabular)**
 - **[bootstrap-icons](https://icons.getbootstrap.com/)**
 
 ## Getting Started
